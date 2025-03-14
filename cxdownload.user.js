@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         超星学习通课程资源直链下载
-// @namespace    https://github.com/ColdThunder11/ChaoXingDownload
+// @namespace    https://github.com/gandizm/ChaoXingDownload
 // @version      0.37
 // @description  超星学习通课程资源直链下载，支持ppt(x),doc(x),pdf,mp4,flv,mp3,avi资源的下载，支持整节课资源批量下载。
 // @author       ColdThunder11, GanDi
@@ -16,7 +16,7 @@
 // @match        *://*.edu.cn/ananas/modules/pdf/index.html*
 // @run-at       document-start
 // @grant        unsafeWindow
-// @supportURL   https://github.com/ColdThunder11/ChaoXingDownload/issues
+// @supportURL   https://github.com/gandizm/ChaoXingDownload/issues
 // ==/UserScript==
 
 (function () {
