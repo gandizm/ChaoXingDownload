@@ -69,18 +69,28 @@
                         if (fileList[i].getAttribute("type") != "afolder") {
                             let itemId = fileList[i].getAttribute("id");
                             let objectid = fileList[i].getAttribute("objectid");
-                            var downloadTag = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x64\x69\x76\x22\x29");
+                            var downloadLink = document.createElement("a");
+                            let fileName = encodeURIComponent(jsondata.name); // 对文件名进行编码
+                            downloadLink.href = "/coursedata/downloadData?dataId=" + itemId + "&classId=" + getQueryStringFunc("classId") + "&cpi=" + getQueryStringFunc("cpi") + "&courseId=" + getQueryStringFunc("courseId") + "&ut=s&fileName=" + fileName;
+                            downloadLink.innerHTML = "点此下载";
+                            downloadLink.style.display = "block";
+                            downloadLink.style.marginTop = "5px";
+                            var downloadTag = document.createElement("div");
                             downloadTag.setAttribute("href", "javascript:void(0)");
                             downloadTag.setAttribute("style", "cursor:pointer;");
                             downloadTag.setAttribute("class", "ct11_dl");
-                            downloadTag.innerHTML = "下载";
-                            downloadTag.onclick = function name(params) {
-                                //let download_link = "\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63"
-                                //download_link += "\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + objectid;
-                                let download_link = "/coursedata/downloadData?dataId=" + itemId + "&classId=" + getQueryStringFunc("classId") + "&cpi=" + getQueryStringFunc("cpi") + "&courseId=" + getQueryStringFunc("courseId") + "&ut=s"
-                                window.location = download_link
+                            downloadTag.innerHTML = "点此复制";
+                            downloadTag.onclick = async function (params) {
+                                let download_link = "/coursedata/downloadData?dataId=" + itemId + "&classId=" + getQueryStringFunc("classId") + "&cpi=" + getQueryStringFunc("cpi") + "&courseId=" + getQueryStringFunc("courseId") + "&ut=s&fileName=" + fileName;
+                                try {
+                                    await navigator.clipboard.writeText(download_link);
+                                    // alert("链接已复制到剪贴板");
+                                } catch (err) {
+                                    alert("复制失败");
+                                }
                             }
-                            eval("\x66\x69\x6c\x65\x4c\x69\x73\x74\x5b\x69\x5d\x2e\x63\x68\x69\x6c\x64\x4e\x6f\x64\x65\x73\x5b\x33\x5d\x2e\x63\x68\x69\x6c\x64\x4e\x6f\x64\x65\x73\x5b\x31\x5d\x2e\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64\x28\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x54\x61\x67\x29");
+                            fileList[i].childNodes[3].childNodes[1].appendChild(downloadLink);
+                            fileList[i].childNodes[3].childNodes[1].appendChild(downloadTag);
                         }
                     }
                     catch (e) { }
@@ -91,10 +101,10 @@
     else {
         setInterval(() => {
             var haveResource = false;
-            var downloadLinks;
-            var if2rames = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x73\x42\x79\x54\x61\x67\x4e\x61\x6d\x65\x28\x22\x69\x66\x72\x61\x6d\x65\x22\x29");
+            var downloadLinks = [];
+            var if2rames = document.getElementsByTagName("iframe");
             for (var i = 0; i < if2rames.length; i++) {
-                var frames = eval("\x69\x66\x32\x72\x61\x6d\x65\x73\x5b\x69\x5d\x2e\x63\x6f\x6e\x74\x65\x6e\x74\x57\x69\x6e\x64\x6f\x77\x2e\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x73\x42\x79\x54\x61\x67\x4e\x61\x6d\x65\x28\x22\x69\x66\x72\x61\x6d\x65\x22\x29");
+                var frames = if2rames[i].contentWindow.document.getElementsByTagName("iframe");
                 for (var j = 0; j < frames.length; j++) {
                     var frame = frames[j];
                     if (!frame) return;
@@ -107,44 +117,64 @@
                         if (jsondata.type == ".ppt" || jsondata.type == ".pptx" || jsondata.type == ".mp4" || jsondata.type == ".pdf" || jsondata.type == ".flv" || jsondata.type == ".doc" || jsondata.type == ".docx" || jsondata.type == ".avi" || jsondata.type == ".wmv" || jsondata.type == ".mpg" || jsondata.type == ".mpeg") {
                             if (!haveResource) {
                                 haveResource = true;
-                                downloadLinks = new Array();
+                                downloadLinks = [];
                             }
                             if (jsondata.type == ".mp4" || jsondata.type == ".avi" || jsondata.type == ".wmv" || jsondata.type == ".mpg" || jsondata.type == ".mpeg" || jsondata.type == ".flv") {
                                 let v_tag = frame.contentWindow.document.getElementsByTagName("video");
                                 console.log(v_tag);
-                                //downloadLinks.push("\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + jsondata.objectid)
-                                let downloadTag = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x64\x69\x76\x22\x29");
-                                console.log(v_tag[0].currentSrc);
+                                var downloadLink = document.createElement("a");
+                                let fileName = encodeURIComponent(jsondata.name); // 对文件名进行编码
+                                downloadLink.href = v_tag[0].currentSrc + "&fileName=" + fileName;
+                                downloadLink.innerHTML = "点此下载 " + jsondata.name;
+                                downloadLink.style.display = "block";
+                                downloadLink.style.marginTop = "5px";
+                                let downloadTag = document.createElement("div");
                                 downloadTag.setAttribute("href", "javascript:void(0)");
                                 downloadTag.setAttribute("class", "ct11_dl");
                                 downloadTag.setAttribute("style", "font-size: 14px;color: #666666;cursor:pointer;");
-                                downloadTag.innerHTML = "点此下载 " + jsondata.name;
-                                downloadTag.onclick = function name(params) {
-                                    let download_link = v_tag[0].currentSrc
-                                    //download_link += "\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" +jsondata.objectid;
-                                    window.location = download_link
+                                downloadTag.innerHTML = "点此复制 " + jsondata.name;
+                                downloadTag.onclick = async function (params) {
+                                    let download_link = v_tag[0].currentSrc + "&fileName=" + fileName;
+                                    try {
+                                        await navigator.clipboard.writeText(download_link);
+                                        // alert("链接已复制到剪贴板");
+                                    } catch (err) {
+                                        alert("复制失败");
+                                    }
                                 }
-                                eval("\x66\x64\x69\x76\x2e\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64\x28\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x54\x61\x67\x29");
+                                fdiv.appendChild(downloadLink);
+                                fdiv.appendChild(downloadTag);
+                                downloadLinks.push(v_tag[0].currentSrc + "&fileName=" + fileName);
                             }
                             else {
-                                //downloadLinks.push("\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + jsondata.objectid)
-                                let downloadTag = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x64\x69\x76\x22\x29");
+                                downloadLink = document.createElement("a");
+                                let fileName = encodeURIComponent(jsondata.name); // 对文件名进行编码
+                                downloadLink.href = unsafeWindow.decdata[jsondata.objectid].replace("http://","https://") + "&fileName=" + fileName;
+                                downloadLink.innerHTML = "点此下载 " + jsondata.name;
+                                downloadLink.style.display = "block";
+                                downloadLink.style.marginTop = "5px";
+                                let downloadTag = document.createElement("div");
                                 downloadTag.setAttribute("href", "javascript:void(0)");
                                 downloadTag.setAttribute("class", "ct11_dl");
                                 downloadTag.setAttribute("style", "font-size: 14px;color: #666666;cursor:pointer;");
-                                downloadTag.innerHTML = "点此下载 " + jsondata.name;
-                                downloadTag.onclick = function name(params) {
-                                    //let download_link = "\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63"
-                                    //download_link += "\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + jsondata.objectid;
+                                downloadTag.innerHTML = "点此复制 " + jsondata.name;
+                                downloadTag.onclick = async function (params) {
                                     try{
-                                        let download_link = unsafeWindow.decdata[jsondata.objectid].replace("http://","https://")
-                                        window.location = download_link
+                                        let download_link = unsafeWindow.decdata[jsondata.objectid].replace("http://","https://") + "&fileName=" + fileName;
+                                        try {
+                                            await navigator.clipboard.writeText(download_link);
+                                            // alert("链接已复制到剪贴板");
+                                        } catch (err) {
+                                            alert("复制失败");
+                                        }
                                     }
                                     catch{
                                         alert("资源解析失败")
                                     }
                                 }
-                                eval("\x66\x64\x69\x76\x2e\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64\x28\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x54\x61\x67\x29");
+                                fdiv.appendChild(downloadLink);
+                                fdiv.appendChild(downloadTag);
+                                downloadLinks.push(unsafeWindow.decdata[jsondata.objectid].replace("http://","https://") + "&fileName=" + fileName);
                             }
                             continue;
                         }
@@ -153,46 +183,59 @@
                     if (frame.getAttribute("name").substr(frame.getAttribute("name").length - 4, 4) == ".mp3") {
                         if (!haveResource) {
                             haveResource = true;
-                            downloadLinks = new Array();
+                            downloadLinks = [];
                         }
-                        downloadLinks.push("\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + frame.getAttribute("objectid"))
                         let objectId = frame.getAttribute("objectid");
-                        var adownloadTag = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x64\x69\x76\x22\x29");
+                        downloadLink = document.createElement("a");
+                        let fileName = encodeURIComponent(frame.getAttribute("name")); // 对文件名进行编码
+                        downloadLink.href = "https://cs-anans.chaoxing.com/download/" + objectId + "?fileName=" + fileName;
+                        downloadLink.innerHTML = "点此下载 " + frame.getAttribute("name");
+                        downloadLink.style.display = "block";
+                        downloadLink.style.marginTop = "5px";
+                        var adownloadTag = document.createElement("div");
                         adownloadTag.setAttribute("href", "javascript:void(0)");
                         adownloadTag.setAttribute("class", "ct11_dl");
                         adownloadTag.setAttribute("style", "font-size: 14px;color: #666666;cursor:pointer;");
-                        adownloadTag.innerHTML = "点此下载 " + frame.getAttribute("name");
-                        adownloadTag.onclick = function name(params) {
-                            let download_link = "\x68\x74\x74\x70\x73\x3a\x2f\x2f\x63\x73\x2d\x61\x6e\x73\x2e\x63"
-                            download_link += "\x68\x61\x6f\x78\x69\x6e\x67\x2e\x63\x6f\x6d\x2f\x64\x6f\x77\x6e\x6c\x6f\x61\x64\x2f" + objectId;
-                            window.location = download_link
+                        adownloadTag.innerHTML = "点此复制 " + frame.getAttribute("name");
+                        adownloadTag.onclick = async function (params) {
+                            let download_link = "https://cs-anans.chaoxing.com/download/" + objectId + "?fileName=" + fileName;
+                            try {
+                                await navigator.clipboard.writeText(download_link);
+                                // alert("链接已复制到剪贴板");
+                            } catch (err) {
+                                alert("复制失败");
+                            }
                         }
+                        fdiv.appendChild(downloadLink);
+                        fdiv.appendChild(adownloadTag);
+                        downloadLinks.push("https://cs-anans.chaoxing.com/download/" + objectId + "?fileName=" + fileName);
                         continue;
                     }
                 }
             }
-            // if (haveResource) {
-            //     if (if2rames[0].parentNode.getElementsByClassName("ct11_dl")[0] != null) if2rames[0].parentNode.getElementsByClassName("ct11_dl")[0].remove()
-            //     var allDownloadTag = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x64\x69\x76\x22\x29");
-            //     allDownloadTag.setAttribute("class", "ct11_dl");
-            //     allDownloadTag.setAttribute("style", "font-size: 14px;color: #666666;cursor:pointer;");
-            //     allDownloadTag.setAttribute("href", "javascript:void(0)");
-            //     allDownloadTag.innerHTML = "点此下载本节内的全部资源";
-            //     allDownloadTag.onclick = function name(params) {
-            //         for (var i = 0; i < downloadLinks.length; i++) {
-            //             const iif2rame = eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x72" + "\x65\x61\x74\x65\x45\x6c\x65\x6d\x65\x6e\x74\x28\x22\x69\x66\x72\x61\x6d\x65\x22\x29");
-            //             iif2rame.style.display = "none";
-            //             iif2rame.style.height = 0;
-            //             iif2rame.src = downloadLinks[i];
-            //             eval("\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x62\x6f\x64\x79\x2e\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64\x28\x69\x69\x66\x32\x72\x61\x6d\x65\x29");
-            //             setTimeout(() => {
-            //                 iif2rame.remove();
-            //             }, 10000);
-            //         }
-            //     }
-            //     if2rames[0].parentNode.insertBefore(allDownloadTag, if2rames[0])
-            // }
+            if (haveResource) {
+                if (if2rames[0].parentNode.getElementsByClassName("ct11_dl")[0] != null) {
+                    if2rames[0].parentNode.getElementsByClassName("ct11_dl")[0].remove();
+                }
+                var allDownloadTag = document.createElement("div");
+                allDownloadTag.setAttribute("class", "ct11_dl");
+                allDownloadTag.setAttribute("style", "font-size: 14px;color: #666666;cursor:pointer;");
+                allDownloadTag.setAttribute("href", "javascript:void(0)");
+                allDownloadTag.innerHTML = "点此下载本节内的全部资源";
+                allDownloadTag.onclick = function () {
+                    for (var i = 0; i < downloadLinks.length; i++) {
+                        const iframe = document.createElement("iframe");
+                        iframe.style.display = "none";
+                        iframe.style.height = 0;
+                        iframe.src = downloadLinks[i];
+                        document.body.appendChild(iframe);
+                        setTimeout(() => {
+                            iframe.remove();
+                        }, 10000);
+                    }
+                }
+                if2rames[0].parentNode.insertBefore(allDownloadTag, if2rames[0]);
+            }
         }, 3000);
     }
 })();
-
