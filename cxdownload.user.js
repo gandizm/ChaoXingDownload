@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         超星学习通课程资源直链下载
+// @name         超星学习通章节直链下载
 // @namespace    https://github.com/gandizm/ChaoXingDownload
 // @version      0.37
-// @description  超星学习通课程资源直链下载，支持ppt(x),doc(x),pdf,mp4,flv,mp3,avi资源的下载，支持整节课资源批量下载。
+// @description  超星学习通章节直链下载，支持ppt,doc,pdf,mp4(x),flv(x),mp3(x),avi(x)资源的下载，支持整节课资源批量下载。
 // @author       ColdThunder11, GanDi
 // @match        *://*.chaoxing.com/mycourse/studentstudy?chapterId=*&courseId=*&clazzid=*&enc=*
 // @match        *://*.chaoxing.com/coursedata?classId=*
