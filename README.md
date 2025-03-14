@@ -4,7 +4,7 @@
 给网页版超星学习通添加课件的下载功能的油猴脚本，支持ppt(x),doc(x),pdf,mp4,flv,mp3,avi资源的下载，支持整节课资源批量下载（需要浏览器允许，在chrome的默认下载中似乎有最多同时下载数限制，可能需要等待前面的文件下载完成后后面的文件才会开始下载，不是bug！！）。      
 ~~点击[这里](https://github.com/ColdThunder11/ChaoXingDownload/raw/master/cxdownload.user.js)（github源，可能需要科学上网）或者[这里](https://cdn.jsdelivr.net/gh/ColdThunder11/ChaoXingDownload@master/cxdownload.user.js)（jsdelivr源）来安装~~
 
-点击[这里]([https://github.com/gandizm/ChaoXingDownload/raw/master/cxdownload.user.js](https://www.tampermonkey.net/script_installation.php#url=https://raw.githubusercontent.com/gandizm/ChaoXingDownload/master/cxdownload.user.js))（github源，需要科学上网）来安装
+点击[这里](https://www.tampermonkey.net/script_installation.php#url=https://raw.githubusercontent.com/gandizm/ChaoXingDownload/master/cxdownload.user.js)（github源，需要科学上网）来安装
 安装后在课程页面可下载的资源下会出现下载链接和复制按钮，因为修改了页面，**不完全确保和网课脚本的兼容性**   
 #### 如果觉得这个脚本对你有帮助，请给个star，谢谢
 
