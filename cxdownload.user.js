@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         超星学习通章节直链下载
 // @namespace    https://github.com/gandizm/ChaoXingDownload
-// @version      0.37
+// @version      0.38
 // @description  超星学习通章节直链下载，支持ppt,doc,pdf,mp4(x),flv(x),mp3(x),avi(x)资源的下载，支持整节课资源批量下载。
 // @author       ColdThunder11, GanDi
 // @match        *://*.chaoxing.com/mycourse/studentstudy?chapterId=*&courseId=*&clazzid=*&enc=*
@@ -33,7 +33,7 @@
         unsafeWindow.XMLHttpRequest.prototype.open = function () {
             //console.log(arguments)
             this.addEventListener("load",()=>{
-                if(this.responseText.includes("d0.ananas.chaoxing.com/download/") ){
+                if(this.responseText.includes("d0.ananas.chaoxing.com/download/"||this.responseText.includes("d0.cldisk.com/download/") ){
                     //console.log(this.responseText);
                     let jsondata = JSON.parse(this.responseText);
                     if(unsafeWindow.top.decdata != null){
