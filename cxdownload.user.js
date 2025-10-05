@@ -33,7 +33,7 @@
         unsafeWindow.XMLHttpRequest.prototype.open = function () {
             //console.log(arguments)
             this.addEventListener("load",()=>{
-                if(this.responseText.includes("d0.ananas.chaoxing.com/download/"||this.responseText.includes("d0.cldisk.com/download/") ){
+                if(this.responseText.includes("d0.ananas.chaoxing.com/download/")||this.responseText.includes("d0.cldisk.com/download/") ){
                     //console.log(this.responseText);
                     let jsondata = JSON.parse(this.responseText);
                     if(unsafeWindow.top.decdata != null){
